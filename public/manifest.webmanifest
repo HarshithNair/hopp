@@ -1,0 +1,22 @@
+{
+  "name": "HOPP \u2014 Every Hop Carries Hope",
+  "short_name": "HOPP",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fbf5e7",
+  "theme_color": "#EDB923",
+  "icons": [
+    {
+      "src": "/brand/hopp-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/brand/hopp-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

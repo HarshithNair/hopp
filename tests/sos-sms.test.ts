@@ -1,0 +1,6 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {buildSosMessage,sosSmsUrl} from '../lib/sos-sms';
+test('SOS draft includes named person, notes and actual attached coordinates',()=>{const body=buildSosMessage({name:'Test Person',category:'Medical',notes:'Need assistance',location:[0,0]});assert.match(body,/Test Person needs help/);assert.match(body,/Notes: Need assistance/);assert.match(body,/They have attached their location: https:\/\/www.google.com\/maps\?q=0,0/)});
+test('missing or invalid GPS never claims an attached location',()=>{for(const location of [undefined,[NaN,77],[91,77]] as ([number,number]|undefined)[]){const body=buildSosMessage({name:'',category:'Lost',notes:'',location});assert.match(body,/Location is not attached/);assert.doesNotMatch(body,/They have attached/);assert.doesNotMatch(body,/maps\?q=/)}});
+test('SOS number is fixed and arbitrary notes cannot inject SMS recipients or fields',()=>{const body=buildSosMessage({name:'Test',category:'Lost',notes:'A&B?recipient=123 # café'});const uri=sosSmsUrl(body);assert.equal(uri.split('?')[0],'sms:+919930923165');const fields=new URLSearchParams(uri.split('?')[1]);assert.deepEqual([...fields.keys()],['body']);assert.equal(fields.get('body'),body)});
